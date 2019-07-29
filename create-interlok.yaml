@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: interlok
+  labels:
+    app: interlok
+spec:
+  selector:
+    matchLabels:
+      app: interlok
+  template:
+    metadata:
+      labels:
+        app: interlok
+    spec:
+      containers:
+      - name: interlok-container
+        image: aaronmcgrathadpx/interlok-kubernetes-scaling:latest
+        ports:
+          - containerPort: 5555
+          - containerPort: 8080
+        env:
+          - name: JAVA_OPTS
+            value: -DprometheusEndpointUrl=prometheus-pushgateway.monitoring.svc.cluster.local:9091 -Dnetworkaddress.cache.ttl=30
+          - name: K8S_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: K8S_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+        

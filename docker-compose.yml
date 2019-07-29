@@ -1,0 +1,11 @@
+# docker-compose up //
+version: '3.3'
+
+services:
+  interlok: 
+    image: aaronmcgrathadpx/interlok-kubernetes-scaling
+    container_name: interlok-container
+    hostname: interlok
+    ports:
+      - '8080:8080'
+      - '5555:5555'
